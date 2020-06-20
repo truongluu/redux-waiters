@@ -1,0 +1,91 @@
+{
+  "name": "redux-waiters",
+  "version": "1.0.0",
+  "license": "MIT",
+  "description": "Waiter middleware for Redux.",
+  "repository": "",
+  "bugs": "https://github.com/truongluu/redux-waiters/issues",
+  "homepage": "https://github.com/truongluu/redux-waiters",
+  "keywords": [
+    "redux",
+    "thunk",
+    "middleware",
+    "redux-middleware",
+    "redux-waiter",
+    "redux-waiters"
+  ],
+  "author": "truongluu <xuantruong1234@gmail.com>",
+  "main": "lib/index.js",
+  "module": "es/index.js",
+  "sideEffects": false,
+  "files": [
+    "lib",
+    "es",
+    "dist"
+  ],
+  "scripts": {
+    "clean": "rimraf lib dist es",
+    "prepare": "npm run clean && npm run lint && npm run build",
+    "lint": "eslint src",
+    "build": "npm run build:commonjs && npm run build:umd && npm run build:umd:min && npm run build:es",
+    "build:commonjs": "cross-env BABEL_ENV=commonjs babel src --out-dir lib",
+    "build:es": "cross-env BABEL_ENV=es babel src --out-dir es",
+    "build:umd": "cross-env BABEL_ENV=commonjs NODE_ENV=development npx webpack",
+    "build:umd:min": "cross-env BABEL_ENV=commonjs NODE_ENV=production npx webpack"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,ts}": [
+      "eslint --fix",
+      "prettier --write",
+      "git add"
+    ],
+    "*.{json,md}": [
+      "prettier --write",
+      "git add"
+    ]
+  },
+  "prettier": {
+    "arrowParens": "always",
+    "proseWrap": "always",
+    "singleQuote": true,
+    "trailingComma": "all"
+  },
+  "peerDependencies": {
+    "redux": "^4"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.5.5",
+    "@babel/core": "^7.5.5",
+    "@babel/preset-env": "^7.5.5",
+    "@babel/register": "^7.5.5",
+    "@typescript-eslint/eslint-plugin": "^2.0.0",
+    "@typescript-eslint/parser": "^2.0.0",
+    "babel-loader": "^8.0.6",
+    "cross-env": "^5.2.0",
+    "eslint": "^6.2.2",
+    "eslint-config-airbnb": "18.0.1",
+    "eslint-config-prettier": "^6.1.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-prettier": "^3.1.0",
+    "eslint-plugin-react": "^7.14.3",
+    "husky": "^3.0.4",
+    "lint-staged": "^9.2.5",
+    "prettier": "^1.18.2",
+    "redux": "^4",
+    "rimraf": "^3.0.0",
+    "typescript": "^3.6.2",
+    "typings-tester": "^0.3.2",
+    "webpack": "^4.39.3",
+    "webpack-cli": "^3.3.7"
+  },
+  "dependencies": {
+    "redux-act": "^1.8.0",
+    "reselect": "^4.0.0"
+  }
+}
