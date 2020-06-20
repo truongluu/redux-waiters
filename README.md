@@ -226,6 +226,9 @@ const fetchUserCreator = (id) =>
   );
 ```
 
+## Example code
+[react-react-app with redux-waiters](https://github.com/truongluu/redux-waiters-example)
+
 ## License
 
 MIT
