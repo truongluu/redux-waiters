@@ -194,11 +194,10 @@ const store = createStore(
 );
 
 // later
-function fetchUser(id) {
-  return (dispatch, getState, api) => {
+const fetchUser = (id) =>
+  fetchUserAction.waiterAction(async (dispatch, getState, api) => {
     // you can use api here
-  };
-}
+  });
 ```
 
 To pass multiple things, just wrap them in a single object. Using ES2015
@@ -215,14 +214,16 @@ const store = createStore(
 
 // later
 const fetchUserCreator = (id) =>
-  fetchUserAction.wait(async (dispatch, getState, { api, whatever }) => {
-    try {
-      dispatch(fetchUserAction.start());
-      dispatch(fetchUserAction.success());
-    } catch (err) {
-      dispatch(fetchUserAction.error());
-    }
-  });
+  fetchUserAction.waiterAction(
+    async (dispatch, getState, { api, whatever }) => {
+      try {
+        dispatch(fetchUserAction.start());
+        dispatch(fetchUserAction.success());
+      } catch (err) {
+        dispatch(fetchUserAction.error());
+      }
+    },
+  );
 ```
 
 ## License

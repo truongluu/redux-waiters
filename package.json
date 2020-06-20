@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "license": "MIT",
   "description": "Waiter middleware for Redux.",
-  "repository": "",
+  "repository": "https://github.com/truongluu/redux-waiters",
   "bugs": "https://github.com/truongluu/redux-waiters/issues",
   "homepage": "https://github.com/truongluu/redux-waiters",
   "keywords": [
