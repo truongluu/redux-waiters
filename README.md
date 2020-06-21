@@ -66,8 +66,7 @@ waiter: waiterReducer
 ### In example counterReducer
 
 ```js
-import { createReducer } from 'redux-act';
-import { createActionResources } from 'redux-waiters';
+import { createActionResources, createReducer } from 'redux-waiters';
 import { delay } from '../helpers/utils';
 
 const initialState = {
@@ -227,6 +226,7 @@ const fetchUserCreator = (id) =>
 ```
 
 ## Example code
+
 [react-react-app with redux-waiters](https://github.com/truongluu/redux-waiters-example)
 
 ## License
