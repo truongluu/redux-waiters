@@ -21,9 +21,6 @@ export default createReducer(
       };
     },
     [endWaitAction]: (state, action) => {
-      state.waiters.filter((waiter) => {
-        return waiter !== action;
-      });
       return {
         ...state,
         waiters: state.waiters.filter((waiter) => waiter !== action),
