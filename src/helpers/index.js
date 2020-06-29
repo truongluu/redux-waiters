@@ -23,6 +23,15 @@ export const createActionResources = (actionName) => {
   };
 };
 
+export const createActionCRUDResources = (actionName) => {
+  return {
+    fetch: createActionResources(`fetch ${actionName}`),
+    create: createActionResources(`create ${actionName}`),
+    update: createActionResources(`update ${actionName}`),
+    delete: createActionResources(`delete ${actionName}`)
+  };
+};
+
 const waiterSelector = (state) => state.waiters;
 
 export const isWaiting = (waiter) =>
