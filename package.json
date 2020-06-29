@@ -1,6 +1,6 @@
 {
   "name": "redux-waiters",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "license": "MIT",
   "description": "Waiter middleware for Redux.",
   "repository": "https://github.com/truongluu/redux-waiters",
