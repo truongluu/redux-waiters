@@ -1,4 +1,5 @@
 import { createAction } from 'redux-act';
+import { put } from 'redux-saga/effects';
 import { createSelector } from 'reselect';
 
 let id = 0;
@@ -22,7 +23,7 @@ export const createActionResources = (actionName) => {
     },
     waiterActionForSaga: (handler) => {
       return function* (action) {
-        if (!!action.continue) {
+        if (action.continue) {
           yield* handler(action)
         } else {
           yield put({
