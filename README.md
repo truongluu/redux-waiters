@@ -28,6 +28,8 @@ Then, to enable Redux Waiters, use
 
 ## Using
 
+From 1.0.6 version, redux-waiters supported both redux-thunk and redux-saga
+
 ### In store
 
 ```js
@@ -39,16 +41,25 @@ import rootReducer from './reducers/index';
 const store = createStore(rootReducer, applyMiddleware(waiter));
 ```
 
-### If you use it with redux-thunk
+### If you use it with redux-thunk, redux-saga
 
 ```js
 import { createStore, applyMiddleware } from 'redux';
 import waiter from 'redux-waiters';
 import thunk from 'redux-thunk';
-import rootReducer from './reducers/index';
+import createSagaMiddleware from 'redux-saga';
+import rootReducer from './reducers';
+import rootSaga from './sagas';
+
+const sagaMiddleware = createSagaMiddleware();
 
 // Note: this API requires redux@>=3.1.0
-const store = createStore(rootReducer, applyMiddleware(waiter, thunk));
+const store = createStore(
+  rootReducer,
+  applyMiddleware(waiter, thunk, sagaMiddleware),
+);
+
+sagaMiddleware.run(rootSage);
 ```
 
 ### In rootReducer file
@@ -179,6 +190,40 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
+```
+
+### In example rootSaga file
+
+```js
+import { all, takeEvery, delay, put, takeLatest } from 'redux-saga/effects';
+
+import { increAction } from './reducers/counter';
+
+function* incrCounter(action) {
+  try {
+    yield delay(4000);
+    yield put(increAction.success(1));
+  } catch (err) {
+    yield put(increAction.error(err));
+  }
+}
+
+function* watchIncrCounter() {
+  yield takeLatest(
+    increAction.start,
+    increAction.waiterActionForSaga(incrCounter),
+  );
+}
+
+function* watchLog() {
+  yield takeEvery('*', function* log(action) {
+    console.log('action', action);
+  });
+}
+
+export default function* rootSaga() {
+  yield all([watchIncrCounter(), watchLog()]);
+}
 ```
 
 ## Injecting a Custom Argument
