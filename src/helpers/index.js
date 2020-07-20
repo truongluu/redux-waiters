@@ -20,6 +20,19 @@ export const createActionResources = (actionName) => {
         callback,
       };
     },
+    waiterActionForSaga: (handler) => {
+      return function* (action) {
+        if (!!action.continue) {
+          yield* handler(action)
+        } else {
+          yield put({
+            type: start,
+            callback: handler,
+            action
+          })
+        }
+      }
+    }
   };
 };
 
