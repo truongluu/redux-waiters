@@ -151,6 +151,40 @@ export const minusNumberCreator = () =>
   });
 ```
 
+### In example rootSaga file
+
+```js
+import { all, takeEvery, delay, put, takeLatest } from 'redux-saga/effects';
+
+import { increAction } from './reducers/counter';
+
+function* incrCounter(action) {
+  try {
+    yield delay(4000);
+    yield put(increAction.success(1));
+  } catch (err) {
+    yield put(increAction.error(err));
+  }
+}
+
+function* watchIncrCounter() {
+  yield takeLatest(
+    increAction.start,
+    increAction.waiterActionForSaga(incrCounter),
+  );
+}
+
+function* watchLog() {
+  yield takeEvery('*', function* log(action) {
+    console.log('action', action);
+  });
+}
+
+export default function* rootSaga() {
+  yield all([watchIncrCounter(), watchLog()]);
+}
+```
+
 ### Example code in your component file
 
 ```js
@@ -190,40 +224,6 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
-```
-
-### In example rootSaga file
-
-```js
-import { all, takeEvery, delay, put, takeLatest } from 'redux-saga/effects';
-
-import { increAction } from './reducers/counter';
-
-function* incrCounter(action) {
-  try {
-    yield delay(4000);
-    yield put(increAction.success(1));
-  } catch (err) {
-    yield put(increAction.error(err));
-  }
-}
-
-function* watchIncrCounter() {
-  yield takeLatest(
-    increAction.start,
-    increAction.waiterActionForSaga(incrCounter),
-  );
-}
-
-function* watchLog() {
-  yield takeEvery('*', function* log(action) {
-    console.log('action', action);
-  });
-}
-
-export default function* rootSaga() {
-  yield all([watchIncrCounter(), watchLog()]);
-}
 ```
 
 ## Injecting a Custom Argument
