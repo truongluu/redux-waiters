@@ -5,8 +5,7 @@ const createWaiterMiddleWare = (extraArgument) => {
     if (typeof action === 'object' && typeof action.callback === 'function') {
       dispatch(startWaitAction(action.type.toString()));
       if (action.callback.prototype
-        && action.callback.prototype.toString() === '[object Generator]'
-        && !action.continue) {
+        && action.callback.prototype.toString() === '[object Generator]') {
         return dispatch({ ...action.action, continue: true, extraArgument })
       }
       return action.callback(dispatch, getState, extraArgument);
