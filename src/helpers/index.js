@@ -25,13 +25,13 @@ export const createActionResources = (actionName) => {
       return function* (action) {
         if (action.continue) {
           return yield* handler(action)
-        } else {
-          yield put({
-            type: start,
-            callback: handler,
-            action
-          })
         }
+        yield put({
+          type: start,
+          callback: handler,
+          action
+        })
+
       }
     }
   };
