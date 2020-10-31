@@ -26,7 +26,7 @@ export const createActionResources = (actionName) => {
         if (action.continue) {
           return yield* handler(action)
         }
-        yield put({
+        return yield put({
           type: start,
           callback: handler,
           action
