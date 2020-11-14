@@ -232,6 +232,37 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(mapStateToProps, mapDispatchToProps)(App);
 ```
 
+### Example code when using useWaiter hook
+
+From redux-waiters@1.0.11 has supported useWaiter hook
+
+```js
+import React from 'react';
+import { isWaiting, anyWaiting, useWaiter } from 'redux-waiters';
+import { useDispatch, useSelector } from 'react-redux';
+impport { Button } from 'antd';
+import { addNumberCreator, minusNumerCreator, addNumberAction, minusNumberAction } from 'reducer/counterReducer';
+
+const isAddingNumerSelector = isWaiting(addNumberAction.id);
+const isMinusingNumerSelector = isWaiting(minusNumberAction.id);
+
+function Counter() {
+  const dispatch = useDispatch();
+  const [addingNumber] = useWaiter(isAddingNumerSelector);
+  return (
+    <>
+      <h1>Counter Component</h1>
+      <Button onClick={() => dispatch(addNumberCreator())} loading={addingNumber}>Add number</Button>
+      {addingNumber ? 'Adding...' : ''}
+    </>
+  );
+}
+
+export default React.memo(Counter);
+
+
+```
+
 ## Injecting a Custom Argument
 
 It's the same as redux-thunk, redux-waiters supports injecting a custom argument

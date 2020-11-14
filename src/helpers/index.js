@@ -1,6 +1,7 @@
 import { createAction } from 'redux-act';
 import { put } from 'redux-saga/effects';
 import { createSelector } from 'reselect';
+import { useSelector } from 'react-redux';
 
 let id = 0;
 export const createActionResources = (actionName) => {
@@ -22,18 +23,17 @@ export const createActionResources = (actionName) => {
       };
     },
     waiterActionForSaga: (handler) => {
-      return function* (action) {
+      return function*(action) {
         if (action.continue) {
-          return yield* handler(action)
+          return yield* handler(action);
         }
         return yield put({
           type: start,
           callback: handler,
-          action
-        })
-
-      }
-    }
+          action,
+        });
+      };
+    },
   };
 };
 
@@ -42,7 +42,7 @@ export const createActionCRUDResources = (actionName) => {
     fetch: createActionResources(`fetch ${actionName}`),
     create: createActionResources(`create ${actionName}`),
     update: createActionResources(`update ${actionName}`),
-    delete: createActionResources(`delete ${actionName}`)
+    delete: createActionResources(`delete ${actionName}`),
   };
 };
 
@@ -55,3 +55,8 @@ export const isWaiting = (waiter) =>
 export const anyWaiting = createSelector(waiterSelector, (waiters) => {
   return waiters.length > 0;
 });
+
+export const useWaiter = (selectorFunc) => {
+  const waiting = useSelector((state) => selectorFunc(state.waiter));
+  return [waiting];
+};
